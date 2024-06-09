@@ -3,10 +3,10 @@ from .model import User
 from sqlalchemy import select
 
 
-async def check_user(tg):
+async def check_user(tg_id):
     async with async_session() as session:
-        user = await session.scalar(select(User).where(User.id == tg))
-        return user
+        user = await session.scalar(select(User).where(User.tg == tg_id))
+    return user
 
 
 async def new_user(tg, number):
