@@ -32,23 +32,24 @@ async def get_contact(message: Message):
     await message.answer("Успешно!!!", reply_markup=kb.main)
 
 
-@router.message(F.text == "Отправить сообщение менеджеру")
+@router.message(F.text == "Начать диалог с менеджером")
 async def to_manager(message: Message, state: FSMContext):
+
+
     await state.set_state(Send.step1)
-    await message.answer("Введите сообщение")
+    await message.answer("Вводите сообщения", reply_markup=kb.endTalk)
 
 
 @router.message(Send.step1)
-async def register_name(message: Message, state: FSMContext):
-    print(message.chat.id)
-    await bot.forward_message(chat_id=MANAGER_ID, from_chat_id=message.from_user.id, message_id=message.message_id)
-
-    await state.clear()
+async def talk(message: Message, state: FSMContext):
+    if message.text == "Закончить диалог с менеджером":
+        await state.clear()
+        await message.answer("Диалог закончен", reply_markup=kb.main)
+    else:
+        await bot.forward_message(chat_id=MANAGER_ID, from_chat_id=message.from_user.id, message_id=message.message_id)
 
 
 @router.message()
 async def for_manager(message: Message):
     if message.from_user.id == MANAGER_ID and message.reply_to_message:
         await bot.send_message(message.reply_to_message.forward_from.id, message.text)
-
-
