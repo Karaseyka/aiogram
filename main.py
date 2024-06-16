@@ -1,15 +1,14 @@
 import asyncio
 
 import aiogram
-from aiogram import Bot, Dispatcher
+from aiogram import Dispatcher
 from heandlers import router
 
-from db.model import async_main
-from Bot import bot
+
+from bot import bot
 
 
 async def main():
-    await async_main()
     dp = Dispatcher()
     dp.include_router(router)
     await dp.start_polling(bot)

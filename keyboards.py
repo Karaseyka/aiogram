@@ -1,8 +1,12 @@
-from aiogram.types import (ReplyKeyboardMarkup, KeyboardButton,
-                           InlineKeyboardMarkup, InlineKeyboardButton)
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
-main = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="Начать диалог с менеджером")]])
+language = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="Русский")],
+                                         [KeyboardButton(text="English")],
+                                         [KeyboardButton(text="中文")]], resize_keyboard=True)
 
-endTalk = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="Закончить диалог с менеджером")]])
+adm = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="Закончить ввод")]], resize_keyboard=True)
 
-contactKeyboard = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="Поделиться номером", request_contact=True)]])
+fl = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="CSV файл с пользователями")]])
+def mes_to_admin(name, id):
+    return InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text="Ответить пользователю: " + str(name),
+                                                                       callback_data=f"touser_{id}")]])
